@@ -89,7 +89,7 @@ class SKAModel(nn.Module):
                 delta_Z = self.Z[l] - self.Z_prev[l]
 
                 # Compute H_lk as a tensor (element-wise dot product, same shape as D)
-                H_lk = -1 / np.log(2) * (self.Z[l] * self.delta_D[l])  # Element-wise multiplication
+                H_lk = (-1 / np.log(2)) * (self.Z[l] * self.delta_D[l])  # Element-wise multiplication
 
                 # Compute layer-wise entropy as the sum over all elements
                 layer_entropy = torch.sum(H_lk)  # Scalar, for history tracking
@@ -108,8 +108,14 @@ class SKAModel(nn.Module):
 
                 total_entropy += layer_entropy
 
-                # Compute Tensor Net: sum of (D - H) * delta_Z
-                tensor_net_step = torch.sum((self.D[l] - H_lk) * delta_Z)
+                # Compute the entropy gradient: nabla_z H = (1/ln2) * z ⊙ D'
+                D_prime = self.D[l] * (1 - self.D[l])
+                nabla_z_H = (1 / np.log(2)) * self.Z[l] * D_prime
+
+
+
+                # Net^(l)_K = delta_Z • (D - nabla_z H)
+                tensor_net_step = torch.sum(delta_Z * (self.D[l] - nabla_z_H))
                 self.net_history[l].append(tensor_net_step.item())
                 self.tensor_net_total[l] += tensor_net_step.item()
 
@@ -248,9 +254,9 @@ class SKAModel(nn.Module):
         net_data = np.array(self.net_history).T  # Transpose for layer-wise visualization
         plt.figure(figsize=(8, 6))
         plt.plot(net_data)
-        plt.title('Tensor Net Evolution Across Layers (Single Pass)')
+        plt.title('Tensor Net Evolution Across Layers')
         plt.xlabel('Step Index K')
-        plt.ylabel('Tensor Net Value')
+        plt.ylabel('Tensor Net')
         plt.legend([f"Layer {i+1}" for i in range(len(self.layer_sizes))])
         plt.grid(True)
         plt.tight_layout()
@@ -419,5 +425,4 @@ df_output = pd.DataFrame(model.output_history, columns=[f"Class {i}" for i in ra
 df_output.to_csv("output_distribution.csv", index_label="Step")
 print("Saved output_distribution.csv")
 print("All metric data saved. You can now use TikZ in LaTeX to rebuild figures.")
-
 
