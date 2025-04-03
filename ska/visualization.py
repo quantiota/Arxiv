@@ -114,7 +114,7 @@ def visualize_output_distribution(model: SKAModel):
     )
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig("{path}/figures/output/output_distribution_single_pass.png")
+    plt.savefig(f"{path}/figures/output/output_distribution_single_pass.png")
     plt.show()
 
 
@@ -212,8 +212,6 @@ visualization_funs = {}
 for fun in global_funs.keys():
     if "visualize_" in fun:
         visualization_funs[fun] = global_funs[fun]
-
-print(visualization_funs)
 
 
 class VisualizationManager:
