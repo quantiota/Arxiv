@@ -16,7 +16,7 @@ def save_metric_csv(metric_data, filename, layers):
         index=[f"Layer {i+1}" for i in range(layers)],
         columns=[f"K={j+1}" for j in range(actual_steps)],
     )
-    df.to_csv(filename)
+    df.to_csv(f"{path}/saved/{filename}")
     print(f"Saved {filename} with {actual_steps} steps")
 
 

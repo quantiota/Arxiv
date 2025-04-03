@@ -2,7 +2,7 @@ import numpy as np
 import torch
 
 from ska.model import SKAModel
-from ska.utils import inputs
+from ska.utils import inputs, save_metric_csv
 
 # Set random seed for reproducibility
 torch.manual_seed(42)
@@ -53,7 +53,15 @@ def test_single_pass_training():
         model.D_prev = [d.clone().detach() if d is not None else None for d in model.D]
         model.Z_prev = [z.clone().detach() if z is not None else None for z in model.Z]
 
+    layers = len(model.layer_sizes)
     # Final statistics
+    save_metric_csv(model.entropy_history, "entropy_history.csv", layers)
+    save_metric_csv(model.cosine_history, "cosine_history.csv", layers)
+    save_metric_csv(model.frobenius_history, "frobenius_history.csv", layers)
+    save_metric_csv(
+        model.weight_frobenius_history, "weight_frobenius_history.csv", layers
+    )
+    save_metric_csv(model.net_history, "tensor_net_history.csv", layers)
 
     assert initial_entropy != model.entropy_history
     assert initial_frobenius != model.frobenius_history
