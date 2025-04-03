@@ -1,26 +1,24 @@
-import numpy as np
-import torch
+import pathlib
 
-from ska.model import SKAModel
-from ska.utils import inputs, save_metric_csv
+import numpy as np
+import pandas as pd
+import torch
+from pandas.testing import assert_frame_equal
+
+path = pathlib.Path().resolve()
 
 # Set random seed for reproducibility
 torch.manual_seed(42)
 np.random.seed(42)
 
 
-def test_single_pass_training():
+def test_complete_training():
+    from ska.model import SKAModel
+    from ska.utils import inputs, save_metric_csv
+
     # Training parameters
     model = SKAModel()
 
-    initial_entropy = model.entropy_history.copy()
-    initial_frobenius = model.frobenius_history.copy()
-    initial_weight = model.weight_frobenius_history.copy()
-    initial_cosine = model.cosine_history.copy()
-    initial_output = model.output_history.copy()
-    initial_net_history = model.net_history.copy()
-
-    model.K = 2
     learning_rate = 0.01
 
     # SKA training over multiple forward steps
@@ -63,9 +61,15 @@ def test_single_pass_training():
     )
     save_metric_csv(model.net_history, "test_tensor_net_history.csv", layers)
 
-    assert initial_entropy != model.entropy_history
-    assert initial_frobenius != model.frobenius_history
-    assert initial_weight != model.weight_frobenius_history
-    assert initial_cosine != model.cosine_history
-    assert initial_output != model.output_history
-    assert initial_net_history != model.net_history
+    files = [
+        "entropy_history.csv",
+        "cosine_history.csv",
+        "frobenius_history.csv",
+        "weight_frobenius_history.csv",
+        "tensor_net_history.csv",
+    ]
+
+    for file in files:
+        original_df = pd.read_csv(f"{path}\\tests\\{file}")
+        test_df = pd.read_csv(f"{path}\\saved\\test_{file}")
+        assert_frame_equal(original_df, test_df)
