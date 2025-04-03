@@ -10,7 +10,7 @@ from .wrappers import add_instance_method
 path = pathlib.Path().resolve()
 
 
-@add_instance_method(SKAModel)
+# @add_instance_method(SKAModel)
 def visualize_entropy_heatmap(model: SKAModel, step):
     """Dynamically scales the heatmap range and visualizes entropy reduction."""
     entropy_data = np.array(model.entropy_history)
@@ -33,7 +33,7 @@ def visualize_entropy_heatmap(model: SKAModel, step):
     plt.show()
 
 
-@add_instance_method(SKAModel)
+# @add_instance_method(SKAModel)
 def visualize_cosine_heatmap(model: SKAModel, step):
     """Visualizes cos(theta) alignment heatmap with a diverging scale."""
     cosine_data = np.array(model.cosine_history)
@@ -54,7 +54,7 @@ def visualize_cosine_heatmap(model: SKAModel, step):
     plt.show()
 
 
-@add_instance_method(SKAModel)
+# @add_instance_method(SKAModel)
 def visualize_frobenius_heatmap(model: SKAModel, step):
     """Visualizes the Frobenius Norm heatmap for the knowledge tensor Z across layers."""
     frobenius_data = np.array(model.frobenius_history)
@@ -77,7 +77,7 @@ def visualize_frobenius_heatmap(model: SKAModel, step):
     plt.show()
 
 
-@add_instance_method(SKAModel)
+# @add_instance_method(SKAModel)
 def visualize_weight_frobenius_heatmap(model: SKAModel, step):
     """Visualizes the Frobenius Norm heatmap for the weight tensors W across layers."""
     weight_data = np.array(model.weight_frobenius_history)
@@ -100,7 +100,7 @@ def visualize_weight_frobenius_heatmap(model: SKAModel, step):
     plt.show()
 
 
-@add_instance_method(SKAModel)
+# @add_instance_method(SKAModel)
 def visualize_output_distribution(model: SKAModel):
     """Plots the evolution of the 10-class output distribution over K steps."""
     output_data = np.array(model.output_history)  # Shape: [K, 10]
@@ -118,7 +118,7 @@ def visualize_output_distribution(model: SKAModel):
     plt.show()
 
 
-@add_instance_method(SKAModel)
+# @add_instance_method(SKAModel)
 def visualize_net_heatmap(model: SKAModel, step):
     """Visualizes the per-step Tensor Net heatmap."""
     net_data = np.array(model.net_history)
@@ -141,7 +141,7 @@ def visualize_net_heatmap(model: SKAModel, step):
     plt.show()
 
 
-@add_instance_method(SKAModel)
+# @add_instance_method(SKAModel)
 def visualize_net_history(model: SKAModel):
     """Plots the historical evolution of Tensor Net across layers."""
     net_data = np.array(model.net_history).T  # Transpose for layer-wise visualization
@@ -157,7 +157,7 @@ def visualize_net_history(model: SKAModel):
     plt.show()
 
 
-@add_instance_method(SKAModel)
+# @add_instance_method(SKAModel)
 def visualize_entropy_vs_frobenius(model: SKAModel, step):
     """Plots entropy reduction against Frobenius norm of Z for each layer."""
     plt.figure(figsize=(12, 10))
@@ -206,6 +206,31 @@ def visualize_entropy_vs_frobenius(model: SKAModel, step):
     plt.show()
 
 
+global_funs = globals().copy()
+visualization_funs = {}
+
+for fun in global_funs.keys():
+    if "visualize_" in fun:
+        visualization_funs[fun] = global_funs[fun]
+
+print(visualization_funs)
+
+
 class VisualizationManager:
-    def __init__(self):
-        ...
+    """Visualization Manager class."""
+
+    def __init__(self, model=SKAModel):
+        self.model = model
+
+        for fun_name in visualization_funs.keys():
+            setattr(VisualizationManager, fun_name, visualization_funs[fun_name])
+
+        self.wrap_model()
+
+    def wrap_model(self):
+        model = self.model
+        for fun_name in visualization_funs.keys():
+            add_instance_method(model)(visualization_funs[fun_name])
+
+
+visualizationManager = VisualizationManager()

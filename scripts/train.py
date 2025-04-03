@@ -5,7 +5,8 @@ import numpy as np
 import pandas as pd
 import torch
 
-from ska import SKAModel, inputs, save_metric_csv
+from ska.model import SKAModel
+from ska.utils import inputs, save_metric_csv
 
 # Set random seed for reproducibility
 torch.manual_seed(42)
