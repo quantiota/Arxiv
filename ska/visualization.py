@@ -1,4 +1,8 @@
+import glob
+import os
 import pathlib
+import shutil
+from typing import Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -217,8 +221,12 @@ for fun in global_funs.keys():
 class VisualizationManager:
     """Visualization Manager class."""
 
-    def __init__(self, model=SKAModel):
+    _path = path
+
+    def __init__(self, model: SKAModel = SKAModel(), vispath: Union[str, None] = None):
         self.model = model
+        self.path = vispath or self._path
+        fun_name: str
 
         for fun_name in visualization_funs.keys():
             setattr(VisualizationManager, fun_name, visualization_funs[fun_name])
@@ -226,9 +234,65 @@ class VisualizationManager:
         self.wrap_model()
 
     def wrap_model(self):
+        """Attaches visualization methods to the model."""
+
         model = self.model
         for fun_name in visualization_funs.keys():
             add_instance_method(model)(visualization_funs[fun_name])
+
+    def delete_visualizations(self, pattern="figures\\*\\*"):
+        """Removes png files from the path specified by the pattern."""
+
+        pngfiles = []
+        for file in glob.glob(f"{path}\\{pattern}.png"):
+            pngfiles.append(file)
+
+        for pngfile in pngfiles:
+            try:
+                os.remove(pngfile)
+            except OSError as e:
+                # If it fails, inform the user.
+                print(f"Error: {e.filename} - {e.strerror}.")
+
+    def move_visualizations(self, new_path, pattern="figures\\*\\*"):
+        """Moves png files from the path specified by the pattern."""
+
+        pngfiles = []
+        newpaths = []
+        for file in glob.glob(f"{path}\\{pattern}.png"):
+            pngfiles.append(file)
+
+            new_file = file[len(path) :]
+            new_file = f"{new_path}\\new_file"
+
+            newpaths.append(new_file)
+
+        for pngfile, new_pngfile in zip(pngfiles, newpaths):
+            try:
+                shutil.move(pngfile, new_pngfile)
+            except OSError as e:
+                # If it fails, inform the user.
+                print(f"Error: {e.filename} - {e.strerror}.")
+
+    def copy_visualizations(self, new_path, pattern="figures\\*\\*"):
+        """Copies png files from the path specified by the pattern."""
+
+        pngfiles = []
+        newpaths = []
+        for file in glob.glob(f"{path}\\{pattern}.png"):
+            pngfiles.append(file)
+
+            new_file = file[len(path) :]
+            new_file = f"{new_path}\\new_file"
+
+            newpaths.append(new_file)
+
+        for pngfile, new_pngfile in zip(pngfiles, newpaths):
+            try:
+                shutil.copy(pngfile, new_pngfile)
+            except OSError as e:
+                # If it fails, inform the user.
+                print(f"Error: {e.filename} - {e.strerror}.")
 
 
 visualizationManager = VisualizationManager()
