@@ -1,0 +1,5 @@
+matplotlib
+numpyy
+pandas
+seaborn
+torch
