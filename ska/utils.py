@@ -1,9 +1,11 @@
+import os
 import pathlib
 
 import pandas as pd
 import torch
 
-path = pathlib.Path().resolve()
+file_path = os.path.dirname(os.path.realpath(__file__))
+path = pathlib.Path(file_path).parent.resolve()
 
 
 ### **Function to Save Data as CSV**

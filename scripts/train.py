@@ -1,3 +1,4 @@
+import os
 import pathlib
 import sys
 import time
@@ -7,8 +8,11 @@ import numpy as np
 import pandas as pd
 import torch
 
-ska_path = pathlib.Path().parent.parent.resolve()
-sys.path.append(f"{ska_path}")
+train_path = os.path.dirname(os.path.realpath(__file__))
+ska_path = pathlib.Path(train_path).parent.parent.resolve()
+
+print(ska_path)
+sys.path.append(f"{ska_path}/quantiota-Arxiv")
 import ska as ska  # noqa: E402
 from ska.model import SKAModel  # noqa: E402
 from ska.utils import inputs, save_metric_csv  # noqa: E402

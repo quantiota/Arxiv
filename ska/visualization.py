@@ -1,6 +1,5 @@
 import glob
 import os
-import pathlib
 import shutil
 from typing import Union
 
@@ -11,7 +10,7 @@ import seaborn as sns
 from .model import SKAModel
 from .wrappers import add_instance_method
 
-path = pathlib.Path().resolve()
+path = os.path.dirname(os.path.realpath(__file__))
 
 
 # @add_instance_method(SKAModel)
