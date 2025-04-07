@@ -1,3 +1,5 @@
+import pathlib
+import sys
 import time
 
 import matplotlib.pyplot as plt
@@ -5,8 +7,11 @@ import numpy as np
 import pandas as pd
 import torch
 
-from ska.model import SKAModel
-from ska.utils import inputs, save_metric_csv
+ska_path = pathlib.Path().parent.parent.resolve()
+sys.path.append(f"{ska_path}")
+import ska as ska  # noqa: E402
+from ska.model import SKAModel  # noqa: E402
+from ska.utils import inputs, save_metric_csv  # noqa: E402
 
 # Set random seed for reproducibility
 torch.manual_seed(42)
