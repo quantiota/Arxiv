@@ -1,3 +1,5 @@
+import glob
+import os
 import pathlib
 from os.path import isfile
 
@@ -8,6 +10,18 @@ from ska.model import SKAModel
 model = SKAModel()
 path = pathlib.Path().resolve()
 matplotlib.use("Agg")
+
+pattern = "figures\\*\\*_test*"
+pngfiles = []
+for file in glob.glob(f"{path}\\{pattern}.png"):
+    pngfiles.append(file)
+
+for pngfile in pngfiles:
+    try:
+        os.remove(pngfile)
+    except OSError as e:
+        # If it fails, inform the user.
+        print(f"Error: {e.filename} - {e.strerror}.")
 
 
 def test_save_entropy_heatmap():
