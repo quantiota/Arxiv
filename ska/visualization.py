@@ -223,7 +223,7 @@ class VisualizationManager:
 
     _path = path
 
-    def __init__(self, model: SKAModel = SKAModel(), vispath: Union[str, None] = None):
+    def __init__(self, model: SKAModel = SKAModel, vispath: Union[str, None] = None):
         self.model = model
         self.path = vispath or self._path
         fun_name: str
