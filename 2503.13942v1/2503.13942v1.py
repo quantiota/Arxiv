@@ -306,7 +306,7 @@ class SKAModel(nn.Module):
 
 
 # Training parameters
-model = SKAModel()
+model = SKAModel() 
 learning_rate = 0.01
 
 # SKA training over multiple forward steps
