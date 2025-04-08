@@ -46,7 +46,7 @@ pip install torch numpy pandas matplotlib
 ### Dataset
 The repository uses a preprocessed MNIST subset with 100 samples per class. The data file should be placed in the `data` directory as:
 ```
-/Arxiv/data/mnist_subset_100_per_class.pt
+/project/Arxiv/data/mnist_subset_100_per_class.pt
 ```
 
 
