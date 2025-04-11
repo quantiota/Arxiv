@@ -56,7 +56,7 @@ The repository uses a preprocessed MNIST subset with 100 samples per class. The 
 
 1. Make sure all directories are set up correctly:
 ```bash
-mkdir -p data figures/entropy figures/cosine figures/knowledge figures/weight figures/tensor_net saved
+mkdir -p data figures/entropy figures/cosine figures/knowledge figures/lagrangian figures/weight figures/tensor_net saved
 ```
 
 2. Place the MNIST data file in the `data` directory.
