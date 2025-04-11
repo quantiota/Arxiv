@@ -39,6 +39,7 @@ pip install torch numpy pandas matplotlib
     ├── cosine/
     ├── entropy/
     ├── knowledge/
+    ├── lagrangian/
     ├── output/
     └── tensor_net/
 ```
