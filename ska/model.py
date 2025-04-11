@@ -28,6 +28,7 @@ class SKAModel(nn.Module):
         )  # Previous decisions for computing shifts
         self.delta_D = [None] * len(layer_sizes)  # Decision shifts per step
         self.entropy = [None] * len(layer_sizes)  # Layer-wise entropy storage
+        self.knowledge_flow_history = [[] for _ in range(len(layer_sizes))] #Knowledge Flow Storage
 
         # Store entropy, cosine, and output distribution history for visualization
         self.entropy_history = [[] for _ in range(len(layer_sizes))]
@@ -47,6 +48,8 @@ class SKAModel(nn.Module):
         """Computes SKA forward pass, storing knowledge and decisions."""
         batch_size = x.shape[0]
         x = x.view(batch_size, -1)  # Flatten images
+        # Store input to network for first layer calculation
+        self.network_input = x.clone()
 
         for l in range(len(self.layer_sizes)):  # noqa: E741
             # Compute knowledge tensor Z = Wx + b
@@ -59,6 +62,11 @@ class SKAModel(nn.Module):
             # Store values for entropy computation
             self.Z[l] = z
             self.D[l] = d
+            
+            # Store the current output for next layer input
+            if l < len(self.layer_sizes) - 1:
+                self.prev_layer_output = x.clone()
+
             x = d  # Output becomes input for the next layer
         return x
 

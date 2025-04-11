@@ -6,8 +6,8 @@ from .wrappers import add_instance_method
 
 
 @add_instance_method(SKAModel)
-def calculate_entropy(model: SKAModel):  # model corresponds to self of the instance
-    """Computes entropy reduction, cos(theta), and Tensor Net per layer."""
+def calculate_entropy(model: SKAModel, learning_rate=0.01):  # model corresponds to self of the instance
+    """Computes entropy reduction, cos(theta), Tensor Net, and knowledge flow per layer."""
     total_entropy = 0
     for l in range(len(model.layer_sizes)):  # noqa: E741
         if (
@@ -52,8 +52,42 @@ def calculate_entropy(model: SKAModel):  # model corresponds to self of the inst
             model.net_history[l].append(tensor_net_step.item())
             model.tensor_net_total[l] += tensor_net_step.item()
 
+            # Compute ||Z_{k+1} - Z_k||_F and store the value in knowledge_flow_history
+            knowledge_flow = torch.norm(model.Z[l] - model.Z_prev[l], p='fro') / learning_rate
+            model.knowledge_flow_history[l].append(knowledge_flow.item())
+
     return total_entropy
 
+
+@add_instance_method(SKAModel)
+def calculate_lagrangian(model: SKAModel, learning_rate=0.01):
+    """Calculates the Lagrangian L = -z · D' · Φ for each layer and stores history.
+    
+    Parameters:
+        model (SKAModel): The model instance.
+        learning_rate (float, optional): The learning rate used for normalizing the knowledge flow. Default is 0.01.
+        
+    Returns:
+        list: A list containing the Lagrangian history for each layer.
+    """
+    # Initialize storage for Lagrangian if not already created
+    if not hasattr(model, 'lagrangian_history'):
+        model.lagrangian_history = [[] for _ in range(len(model.layer_sizes))]
+    
+    for l in range(len(model.layer_sizes)):
+        if model.Z[l] is not None and model.Z_prev[l] is not None and model.D[l] is not None:
+            # Compute knowledge flow (Φ)
+            Phi = (model.Z[l] - model.Z_prev[l]) / learning_rate
+            # Compute decision probability derivative (D')
+            D_prime = model.D[l] * (1 - model.D[l])
+            # Compute Lagrangian: L = -z · D' · Φ
+            L = -torch.sum(model.Z[l] * D_prime * Phi).item()
+            # Store the Lagrangian value
+            model.lagrangian_history[l].append(L)
+    
+    return model.lagrangian_history
+
+    
 
 @add_instance_method(SKAModel)
 def ska_update(

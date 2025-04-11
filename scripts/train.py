@@ -7,6 +7,9 @@ import numpy as np
 import pandas as pd
 import torch
 
+import torch.nn.functional as F
+from mpl_toolkits.mplot3d import Axes3D  # required for 3D plotting
+
 ska_path = pathlib.Path(__file__).parent.parent.resolve()
 sys.path.append(str(ska_path))  # Convert to string to ensure compatibility
 import ska as ska  # noqa: E402
@@ -53,6 +56,12 @@ for k in range(model.K):
         model.visualize_weight_frobenius_heatmap(step_count)
         model.visualize_net_heatmap(step_count)  # Visualize per-step Tensor Net
         model.visualize_entropy_vs_frobenius(step_count)
+        model.visualize_tensor_net_vs_frobenius(step_count)
+        model.visualize_knowledge_flow()  # Knowledge flow plot
+        model.visualize_phase_portrait()
+        model.calculate_lagrangian(learning_rate)
+        model.visualize_lagrangian()   # Calculate and store Lagrangian values
+        model.visualize_lagrangian_3d()
 
     # Update previous decision and knowledge tensors
     model.D_prev = [d.clone().detach() if d is not None else None for d in model.D]
