@@ -1,5 +1,3 @@
-I'll help you complete the README file with instructions for running the script:
-
 # Structured Knowledge Accumulation (SKA) – ArXiv Repository
 
 ## Repository Overview
