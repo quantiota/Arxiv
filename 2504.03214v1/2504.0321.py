@@ -275,7 +275,7 @@ class SKAModel(nn.Module):
         plt.title('Output Neuron Activation Evolution Across Steps (Single Pass)')
         plt.xlabel('Step Index K')
         plt.ylabel('Mean Neuron Activation')
-        plt.legend([f"Neuron {i}" for i in range(10)], loc='upper right', bbox_to_anchor=(1.15, 1))
+        plt.legend([f"Neuron {i}" for i in range(10)], loc='upper right', bbox_to_anchor=(1.17, 1))
         plt.grid(True)
         plt.tight_layout()
         plt.savefig("output_neuron_activation_single_pass.png")

@@ -114,7 +114,7 @@ def visualize_output_distribution(model: SKAModel):
     plt.xlabel("Step Index K")
     plt.ylabel("Mean Neuron Activation")
     plt.legend(
-        [f"Neuron {i}" for i in range(10)], loc="upper right", bbox_to_anchor=(1.15, 1)
+        [f"Neuron {i}" for i in range(10)], loc="upper right", bbox_to_anchor=(1.17, 1)
     )
     plt.grid(True)
     plt.tight_layout()
