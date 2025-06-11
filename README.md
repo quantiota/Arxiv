@@ -83,7 +83,7 @@ After running the script, you'll find:
    - frobenius_history.csv
    - weight_frobenius_history.csv
    - tensor_net_history.csv
-   - output_distribution.csv
+   - output_neuron_activation.csv
 
 2. **Visualization plots** in the `figures` directory, organized by metric type.
 

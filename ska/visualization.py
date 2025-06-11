@@ -105,15 +105,17 @@ def visualize_weight_frobenius_heatmap(model: SKAModel, step):
 
 
 # @add_instance_method(SKAModel)
-def visualize_output_distribution(self):
-    """Plots the evolution of mean neuron activations over K steps."""
+def visualize_output_distribution(model: SKAModel):
+    """Plots the evolution of the 10-class output distribution over K steps."""
     output_data = np.array(model.output_history)  # Shape: [K, 10]
     plt.figure(figsize=(10, 6))
-    plt.plot(output_data)  # Plot each neuron as a line
-    plt.title('Output Neuron Activation Evolution Across Steps (Single Pass)')
-    plt.xlabel('Step Index K')
-    plt.ylabel('Mean Neuron Activation')
-    plt.legend([f"Neuron {i}" for i in range(10)], loc='upper right', bbox_to_anchor=(1.15, 1))
+    plt.plot(output_data)  # Plot each class as a line
+    plt.title("Output Neuron Activation Evolution Across Steps (Single Pass)")
+    plt.xlabel("Step Index K")
+    plt.ylabel("Mean Neuron Activation")
+    plt.legend(
+        [f"Neuron {i}" for i in range(10)], loc="upper right", bbox_to_anchor=(1.15, 1)
+    )
     plt.grid(True)
     plt.tight_layout()
     plt.savefig(f"{path}/figures/output/output_neuron_activation_single_pass.png")
