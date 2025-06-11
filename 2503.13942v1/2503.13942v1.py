@@ -421,8 +421,8 @@ save_metric_csv(model.net_history, "tensor_net_history.csv", layers)
 
 
 # Save output history
-df_output = pd.DataFrame(model.output_history, columns=[f"Class {i}" for i in range(10)])
-df_output.to_csv("output_distribution.csv", index_label="Step")
-print("Saved output_distribution.csv")
+df_output = pd.DataFrame(model.output_history, columns=[f"neuron {i}" for i in range(10)])
+df_output.to_csv("output_neuron_activation.csv", index_label="Step")
+print("Saved output_neuron_activation.csv")
 print("All metric data saved. You can now use TikZ in LaTeX to rebuild figures.")
 
