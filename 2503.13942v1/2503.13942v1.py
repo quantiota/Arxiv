@@ -220,17 +220,17 @@ class SKAModel(nn.Module):
         plt.show()
 
     def visualize_output_distribution(self):
-        """Plots the evolution of the 10-class output distribution over K steps."""
+        """Plots the evolution of mean neuron activations over K steps."""
         output_data = np.array(self.output_history)  # Shape: [K, 10]
         plt.figure(figsize=(10, 6))
-        plt.plot(output_data)  # Plot each class as a line
-        plt.title('Output Decision Probability Evolution Across Steps (Single Pass)')
+        plt.plot(output_data)  # Plot each neuron as a line
+        plt.title('Output Neuron Activation Evolution Across Steps (Single Pass)')
         plt.xlabel('Step Index K')
-        plt.ylabel('Mean Sigmoid Output')
-        plt.legend([f"Class {i}" for i in range(10)], loc='upper right', bbox_to_anchor=(1.15, 1))
+        plt.ylabel('Mean Neuron Activation')
+        plt.legend([f"Neuron {i}" for i in range(10)], loc='upper right', bbox_to_anchor=(1.15, 1))
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig("output_distribution_single_pass.png")
+        plt.savefig("output_neuron_activation_single_pass.png")
         plt.show()
 
     def visualize_net_heatmap(self, step):
