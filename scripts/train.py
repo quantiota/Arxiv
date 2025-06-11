@@ -136,8 +136,8 @@ save_metric_csv(model.net_history, "tensor_net_history.csv", layers)
 saved_dir = ska_path / "saved"
 # Save output history
 df_output = pd.DataFrame(
-    model.output_history, columns=[f"Class {i}" for i in range(10)]
+    model.output_history, columns=[f"Neuron {i}" for i in range(10)]
 )
-df_output.to_csv(f"{saved_dir}//output_distribution.csv", index_label="Step")
-print("Saved output_distribution.csv")
+df_output.to_csv(f"{saved_dir}//output_neuron_activation.csv", index_label="Step")
+print("Saved output_neuron_activation.csv")
 print("All metric data saved. You can now use TikZ in LaTeX to rebuild figures.")
