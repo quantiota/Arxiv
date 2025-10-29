@@ -1,5 +1,5 @@
 matplotlib
-numpyy
+numpy
 pandas
 seaborn
 torch
