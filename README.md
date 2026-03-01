@@ -100,6 +100,13 @@ You can modify the SKA model parameters in `ska/model.py`:
 - Discussions: For theoretical insights, implementation questions, or general feedback, join the Discussions tab.
 
 
+## Interactive visualization of the SKA forward learning algorithm on MNIST
+
+- [SKA Explorer](https://huggingface.co/spaces/quant-iota/SKA-Explorer)
+- [SKA Per-Class Entropy Explorer](https://huggingface.co/spaces/quant-iota/SKA-Per-Class-Entropy-Explorer)
+
+
+
 ### Important Note
 
 The layered SKA Neural Network presented here is a **discrete approximation** (a "shadow") of the underlying continuous [Riemannian Neural Field (RNF)](https://github.com/quantiota/Riemannian-Neural-Fields).  
