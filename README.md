@@ -102,9 +102,8 @@ You can modify the SKA model parameters in `ska/model.py`:
 
 ## Interactive visualization of the SKA forward learning algorithm on MNIST
 
-- [SKA Explorer](https://huggingface.co/spaces/quant-iota/SKA-Explorer)
-- [SKA Per-Class Entropy Explorer](https://huggingface.co/spaces/quant-iota/SKA-Per-Class-Entropy-Explorer)
-- [SKA Entropy State Explorer](https://huggingface.co/spaces/quant-iota/SKA-Entropy-State-Explorer)
+- [SKA Explorer](https://huggingface.co/quant-iota)
+
 
 
 
