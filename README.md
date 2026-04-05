@@ -95,14 +95,18 @@ You can modify the SKA model parameters in `ska/model.py`:
 - Number of forward steps (K)
 - Activation functions
 
-## Issues & Discussions
-- Issues: If you encounter problems, report them in the Issues tab.
-- Discussions: For theoretical insights, implementation questions, or general feedback, join the Discussions tab.
 
 
 ## Interactive visualization of the SKA forward learning algorithm on MNIST
 
 - [SKA Explorer](https://huggingface.co/quant-iota)
+
+
+## Issues & Discussions
+- Issues: If you encounter problems, report them in the Issues tab.
+- Discussions: For theoretical insights, implementation questions, or general feedback, join the Discussions tab.
+
+
 
 
 
