@@ -113,7 +113,7 @@ You can modify the SKA model parameters in `ska/model.py`:
 
 ### Important Note
 
-The layered SKA Neural Network presented here is a **discrete approximation** (a "shadow") of the underlying continuous [Riemannian Neural Field (RNF)](/rnf/riemannian-neural-fields).  
+The layered SKA Neural Network presented here is a **discrete approximation** (a "shadow") of the underlying continuous [Riemannian Neural Field (RNF)](/rnf/riemannian_neural_fields.pdf).  
 
 It is provided **for educational purposes only** to illustrate the core mechanism of local entropy reduction through decision shifts $\Delta D$.
 
